@@ -3,113 +3,144 @@
 <html>
   <head>
     <title>CS 212 - Expense Tracker</title>
-    <link rel="stylesheet" href="ExpenseStyle.css">
+    <link rel="stylesheet" href="ExpenseStyle.css" />
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- Nav Bootstrap with search bar-->
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-          <a class="navbar-brand" style="color: green;">Expense Tracker</a>
-          <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search by Category or Date" aria-label="Search" style="width: 400px;">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+        <a class="navbar-brand" style="color: green">Expense Tracker</a>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search by Category or Date"
+            aria-label="Search"
+            style="width: 400px"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
     </nav>
 
     <main class="main container">
-    <!-- ADD EXPNESE SECTION-->  
-    <section id="addExpense" class="card add-expense section-card">
-      <h4>Add New Expense</h4>
+      <!-- ADD EXPNESE SECTION-->
+      <section id="addExpense" class="card add-expense section-card">
+        <h4>Add New Expense</h4>
         <form id="expenseForm">
-          <input type="text" id="expense-category" class="form-control" placeholder="Category: Food, Transport, entertainment, etc." required/>
-          <input type="text" id="expense-amount" class="form-control" placeholder="Amount" required/>
-          <input type="text" id="expense-date" class="form-control" placeholder="Date of Expense" required/>
-          <button type="submit" class="btn btn-primary mt-2">Add Expense</button>
+          <input
+            type="text"
+            id="expense-category"
+            class="form-control"
+            placeholder="Category: Food, Transport, entertainment, etc."
+            required
+          />
+          <input
+            type="text"
+            id="expense-amount"
+            class="form-control"
+            placeholder="Amount"
+            required
+          />
+          <input
+            type="text"
+            id="expense-date"
+            class="form-control"
+            placeholder="Date of Expense"
+            required
+          />
+          <button type="submit" class="btn btn-primary mt-2">
+            Add Expense
+          </button>
         </form>
-    </section>
-    <!-- SUMMARY SECTION-->
-    <section id="summary" class="card summary section-card">
-    <h4>Summary of Spending</h4>
-    <table class="custom-table">
-      <thead>
-          <tr>
+      </section>
+      <!-- SUMMARY SECTION-->
+      <section id="summary" class="card summary section-card">
+        <h4>Summary of Spending</h4>
+        <table class="custom-table">
+          <thead>
+            <tr>
               <th>Weekly</th>
               <th>Monthly</th>
               <th>Yearly</th>
               <th>Total</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>xxxx</td>
               <td>xxxx</td>
               <td>xxxx</td>
-              <td>xxxx</td>   
-          </tr>
-      </tbody>
-  </table>
-    </section>
-    <!-- HISTORY SECTION-->
-    <section id="history" class="card expense-history section-card">
-    <h4>Expense History</h4>
-    <table class="custom-table">
-      <thead>
-          <tr>
+              <td>xxxx</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- HISTORY SECTION-->
+      <section id="history" class="card expense-history section-card">
+        <h4>Expense History</h4>
+        <table class="custom-table">
+          <thead>
+            <tr>
               <th>Category</th>
               <th>Cost</th>
               <th>Date</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>xxxx</td>
               <td>xxxx</td>
-              <td>xxxx</td>  
-          </tr>
-          <tr>
+              <td>xxxx</td>
+            </tr>
+            <tr>
               <td><i>bbbbb</i></td>
               <td><i>bbbbb</i></td>
               <td><i>bbbbb</i></td>
-          </tr>
-      </tbody>
-    </table>
-    </section>
-  <!-- Category SECTION-->
-    <section id="category" class="card category section-card">
-    <h4>Category</h4>
-    <table class="custom-table">
-      <thead>
-          <tr>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- Category SECTION-->
+      <section id="category" class="card category section-card">
+        <h4>Category</h4>
+        <table class="custom-table">
+          <thead>
+            <tr>
               <th>Category</th>
               <th>Total Amount</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>Groceries</td>
-              <td>xxxx</td>  
+              <td>xxxx</td>
             </tr>
             <tr>
               <td>Utilities</td>
-              <td>xxxx</td>  
+              <td>xxxx</td>
             </tr>
             <tr>
               <td>Entertainment</td>
-              <td>xxxx</td>  
+              <td>xxxx</td>
             </tr>
             <tr>
               <td>Transportation</td>
-              <td>xxxx</td>  
+              <td>xxxx</td>
             </tr>
-        </tbody>
-      </table>
-    </section>
-    <button type="submit" class="btn btn-primary mt-2">Download Report</button>
-  </main>
-  <!-- Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-</body>
+          </tbody>
+        </table>
+      </section>
+      <button type="submit" class="btn btn-primary mt-2">
+        Download Report
+      </button>
+    </main>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  </body>
 </html>
