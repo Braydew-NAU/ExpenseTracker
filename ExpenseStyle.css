@@ -33,6 +33,9 @@ body {
 #expense-date {
   background-color: #f6fefa;
 }
+#download-report {
+  margin-left: 10px;
+}
 
 .add-expense button {
   background-color: #2ade57;
