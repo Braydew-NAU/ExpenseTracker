@@ -25,6 +25,9 @@
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <button type="submit" class="btn btn-primary mt-2">
+          Download Report
+        </button>
       </div>
     </nav>
 
@@ -51,7 +54,7 @@
             type="text"
             id="expense-date"
             class="form-control"
-            placeholder="Date of Expense"
+            placeholder="Date of Expense (MM-DD-YYYY)"
             required
           />
           <button type="submit" class="btn btn-primary mt-2">
@@ -73,10 +76,10 @@
           </thead>
           <tbody>
             <tr>
-              <td>xxxx</td>
-              <td>xxxx</td>
-              <td>xxxx</td>
-              <td>xxxx</td>
+              <td id="weekly-spending">xxxx</td>
+              <td id="monthly-spending">xxxx</td>
+              <td id="yearly-spending">xxxx</td>
+              <td id="total-spending">xxxx</td>
             </tr>
           </tbody>
         </table>
@@ -92,19 +95,13 @@
               <th>Date</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>xxxx</td>
-              <td>xxxx</td>
-              <td>xxxx</td>
-            </tr>
-            <tr>
-              <td><i>bbbbb</i></td>
-              <td><i>bbbbb</i></td>
-              <td><i>bbbbb</i></td>
-            </tr>
+          <tbody id="history-table-body">
+            <!-- Expense Rows will be dynamically added here -->
           </tbody>
         </table>
+        <button class="btn btn-primary mt-2" onclick="showAllExpenseHistory()">
+          Show All Expenses
+        </button>
       </section>
       <!-- Category SECTION-->
       <section id="category" class="card category section-card">
@@ -116,31 +113,21 @@
               <th>Total Amount</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Groceries</td>
-              <td>xxxx</td>
-            </tr>
-            <tr>
-              <td>Utilities</td>
-              <td>xxxx</td>
-            </tr>
-            <tr>
-              <td>Entertainment</td>
-              <td>xxxx</td>
-            </tr>
-            <tr>
-              <td>Transportation</td>
-              <td>xxxx</td>
-            </tr>
+          <tbody id="category-table-body">
+            <!-- Category total will be dynamically added here -->
           </tbody>
         </table>
+        <button
+          class="btn btn-primary mt-2"
+          onclick="showAllExpensesByCategory()"
+        >
+          Show All Categories
+        </button>
       </section>
-      <button type="submit" class="btn btn-primary mt-2">
-        Download Report
-      </button>
     </main>
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Include your JavaScript file or script here -->
+    <script src="ExpenseApp.js"></script>
   </body>
 </html>
