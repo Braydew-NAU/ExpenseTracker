@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // implementation to load expenses from local storage when the page loads
 window.onload = function () {
     const savedExpenses = localStorage.getItem("expenses");
@@ -30,6 +31,8 @@ window.onload = function () {
   
   
 
+=======
+>>>>>>> d95811106f7712d8427a1b6d15494a2909cc7610
 const expenses = []; // Array to store all expense entries
 
 function calculateExpensesByCategory() {
@@ -228,6 +231,7 @@ document
       document.querySelector("#expense-date").value = "";
     }
   });
+<<<<<<< HEAD
 
 // function to dowload report
 
@@ -342,3 +346,5 @@ function showSearchResults() {
 
   
   
+=======
+>>>>>>> d95811106f7712d8427a1b6d15494a2909cc7610
