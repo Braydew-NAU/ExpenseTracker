@@ -1,3 +1,30 @@
+//saving the data to local sotrage
+document
+  .querySelector("#expenseForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const category = document.querySelector("#expense-category").value;
+    const amount = parseFloat(document.querySelector("#expense-amount").value);
+    const date = document.querySelector("#expense-date").value;
+
+    if (category && !isNaN(amount) && date) {
+      expenses.push({ category, amount, date });
+      calculateExpensesByCategory();
+      updateExpenseHistory();
+      showTopCategories(); // To update top 4 categories
+      updateSummary(); // Call to update the summary section
+
+      // Save to local storage 
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+
+      // Clear the input fields
+      document.querySelector("#expense-category").value = "";
+      document.querySelector("#expense-amount").value = "";
+      document.querySelector("#expense-date").value = "";
+    }
+  });
+
 // implementation to load expenses from local storage when the page loads
 window.onload = function () {
     const savedExpenses = localStorage.getItem("expenses");
@@ -71,10 +98,26 @@ function getLatestDateByCategory() {
 
 function showAllExpensesByCategory() {
   const newWindow = window.open("", "_blank");
-  newWindow.document.write("<h1>All Expenses by Category</h1>");
-  newWindow.document.write(
-    '<table border="1"><tr><th>Category</th><th>Total Amount</th><th>Most Recent Date</th></tr>'
-  );
+  newWindow.document.write(`
+    <html>
+      <head>
+        <title>All Expenses by Category</title>
+        <link rel="stylesheet" type="text/css" href="ExpenseStyle.css">
+      </head>
+      <body>
+        <div class="container">
+          <div class="card section-card">
+            <h1>All Expenses by Category</h1>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Total Amount</th>
+                  <th>Most Recent Date</th>
+                </tr>
+              </thead>
+              <tbody>
+  `);
 
   const categoryTotals = {};
   const latestDates = {};
@@ -95,31 +138,68 @@ function showAllExpensesByCategory() {
   });
 
   for (const category in categoryTotals) {
-    newWindow.document.write(
-      `<tr><td>${category}</td><td>$${categoryTotals[category].toFixed(
-        2
-      )}</td><td>${latestDates[category]}</td></tr>`
-    );
+    newWindow.document.write(`
+      <tr>
+        <td>${category}</td>
+        <td>$${categoryTotals[category].toFixed(2)}</td>
+        <td>${latestDates[category]}</td>
+      </tr>
+    `);
   }
 
-  newWindow.document.write("</table>");
+  newWindow.document.write(`
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </body>
+    </html>
+  `);
 }
 
 function showAllExpenseHistory() {
   const newWindow = window.open("", "_blank");
-  newWindow.document.write("<h1>ExpenseHistory</h1>");
-  newWindow.document.write(
-    '<table border="1"><tr><th>Category</th><th>Amount</th><th>Date</th></tr>'
-  );
+  newWindow.document.write(`
+    <html>
+      <head>
+        <title>Expense History</title>
+        <link rel="stylesheet" type="text/css" href="ExpenseStyle.css">
+      </head>
+      <body>
+        <div class="container">
+          <div class="card section-card">
+            <h1>Expense History</h1>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+  `);
 
-  expense.forEach((expense) => {
-    newWindow.document.write(
-      `<tr><td>${expense.category}</td><td>$${expense.amount}</td><td>${expense.date}</td></tr>`
-    );
+  expenses.forEach((expense) => {
+    newWindow.document.write(`
+      <tr>
+        <td>${expense.category}</td>
+        <td>$${expense.amount.toFixed(2)}</td>
+        <td>${new Date(expense.date).toLocaleDateString()}</td>
+      </tr>
+    `);
   });
 
-  newWindow.document.write("</table>");
+  newWindow.document.write(`
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </body>
+    </html>
+  `);
 }
+
 
 function showTopCategories() {
   const categoryTotals = {};
@@ -206,28 +286,6 @@ function calculateSpending(days) {
   return filteredExpenses.reduce((total, expense) => total + expense.amount, 0);
 }
 
-document
-  .querySelector("#expenseForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const category = document.querySelector("#expense-category").value;
-    const amount = parseFloat(document.querySelector("#expense-amount").value);
-    const date = document.querySelector("#expense-date").value;
-
-    if (category && !isNaN(amount) && date) {
-      expenses.push({ category, amount, date });
-      calculateExpensesByCategory();
-      updateExpenseHistory();
-      showTopCategories(); // To update top 4 categories
-      updateSummary(); // Call to update the summary section
-
-      // Clear the input fields
-      document.querySelector("#expense-category").value = "";
-      document.querySelector("#expense-amount").value = "";
-      document.querySelector("#expense-date").value = "";
-    }
-  });
 
 // function to dowload report
 
@@ -312,28 +370,32 @@ function showSearchResults() {
     // Display the search results section
     searchResultsSection.style.display = "block";
 
+    let resultsHTML = "<table class='custom-table'><thead><tr><th>Category</th><th>Amount</th><th>Date</th></tr></thead><tbody>";
+
     if (searchQuery.includes("all")) {
       // Show all expenses
-      let resultsHTML = "<table class='custom-table'><thead><tr><th>Category</th><th>Amount</th><th>Date</th></tr></thead><tbody>";
       expenses.forEach(expense => {
         resultsHTML += `<tr><td>${expense.category}</td><td>$${expense.amount.toFixed(2)}</td><td>${new Date(expense.date).toLocaleDateString()}</td></tr>`;
       });
-      resultsHTML += "</tbody></table>";
-      searchResultsContent.innerHTML = resultsHTML;
     } else {
-      // Show expenses for the specific category
-      let resultsHTML = "<table class='custom-table'><thead><tr><th>Category</th><th>Amount</th><th>Date</th></tr></thead><tbody>";
-      const filteredExpenses = expenses.filter(expense => expense.category.toLowerCase() === searchQuery);
+      // Separate date and category search
+      const filteredExpenses = expenses.filter(expense => {
+        const categoryMatch = expense.category.toLowerCase().includes(searchQuery);
+        const dateMatch = new Date(expense.date).toLocaleDateString("en-US") === searchQuery;
+        return categoryMatch || dateMatch;
+      });
+
       if (filteredExpenses.length > 0) {
         filteredExpenses.forEach(expense => {
           resultsHTML += `<tr><td>${expense.category}</td><td>$${expense.amount.toFixed(2)}</td><td>${new Date(expense.date).toLocaleDateString()}</td></tr>`;
         });
       } else {
-        resultsHTML += "<tr><td colspan='3'>No expenses found for this category.</td></tr>";
+        resultsHTML += "<tr><td colspan='3'>No matching expenses found.</td></tr>";
       }
-      resultsHTML += "</tbody></table>";
-      searchResultsContent.innerHTML = resultsHTML;
     }
+
+    resultsHTML += "</tbody></table>";
+    searchResultsContent.innerHTML = resultsHTML;
 
     // Smooth scroll to the search results section
     searchResultsSection.scrollIntoView({ behavior: 'smooth' });
