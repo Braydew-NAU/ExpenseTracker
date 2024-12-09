@@ -27,35 +27,33 @@ document
 
 // implementation to load expenses from local storage when the page loads
 window.onload = function () {
-    const savedExpenses = localStorage.getItem("expenses");
-    if (savedExpenses) {
-      expenses.push(...JSON.parse(savedExpenses));
-      calculateExpensesByCategory();
-      updateExpenseHistory();
-      showTopCategories(); // To update top categories
-      updateSummary(); // Call to update the summary section
-    }
-  };
-  
-// reset dat button clearing all data
-  document.getElementById("reset-data").addEventListener("click", function() {
-    // Clear expenses array and local storage
-    expenses.length = 0;
-    localStorage.removeItem("expenses");
-  
-    // Update UI
+  const savedExpenses = localStorage.getItem("expenses");
+  if (savedExpenses) {
+    expenses.push(...JSON.parse(savedExpenses));
     calculateExpensesByCategory();
     updateExpenseHistory();
-    showTopCategories(); // Update top categories
-    updateSummary(); // Update the summary section
-  
-    // Clear the input fields
-    document.querySelector("#expense-category").value = "";
-    document.querySelector("#expense-amount").value = "";
-    document.querySelector("#expense-date").value = "";
-  });
-  
-  
+    showTopCategories(); // To update top categories
+    updateSummary(); // Call to update the summary section
+  }
+};
+
+// reset dat button clearing all data
+document.getElementById("reset-data").addEventListener("click", function () {
+  // Clear expenses array and local storage
+  expenses.length = 0;
+  localStorage.removeItem("expenses");
+
+  // Update UI
+  calculateExpensesByCategory();
+  updateExpenseHistory();
+  showTopCategories(); // Update top categories
+  updateSummary(); // Update the summary section
+
+  // Clear the input fields
+  document.querySelector("#expense-category").value = "";
+  document.querySelector("#expense-amount").value = "";
+  document.querySelector("#expense-date").value = "";
+});
 
 const expenses = []; // Array to store all expense entries
 
@@ -290,78 +288,91 @@ function calculateSpending(days) {
 // function to dowload report
 
 function downloadCSV() {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Category,Amount,Date\n"; // Add headers for expenses
-  
-    // Adding expenses data to CSV
-    expenses.forEach((expense) => {
-      csvContent += `${expense.category},${expense.amount},${new Date(expense.date).toLocaleDateString()}\n`;
-    });
-  
-    // Calculate category totals
-    const categoryTotals = {};
-    expenses.forEach((expense) => {
-      if (categoryTotals[expense.category]) {
-        categoryTotals[expense.category] += expense.amount;
-      } else {
-        categoryTotals[expense.category] = expense.amount;
-      }
-    });
-  
-    // Adding a section for Category Totals
-    csvContent += "\nCategory Totals\n";
-    csvContent += "Category,Total Amount\n";
-    for (const [category, total] of Object.entries(categoryTotals)) {
-      csvContent += `${category},${total.toFixed(2)}\n`;
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += "Category,Amount,Date\n"; // Add headers for expenses
+
+  // Adding expenses data to CSV
+  expenses.forEach((expense) => {
+    csvContent += `${expense.category},${expense.amount},${new Date(
+      expense.date
+    ).toLocaleDateString()}\n`;
+  });
+
+  // Calculate category totals
+  const categoryTotals = {};
+  expenses.forEach((expense) => {
+    if (categoryTotals[expense.category]) {
+      categoryTotals[expense.category] += expense.amount;
+    } else {
+      categoryTotals[expense.category] = expense.amount;
     }
-  
-    // Calculate summary data
-    const weeklyTotal = calculateSpending(7);
-    const monthlyTotal = calculateSpending(31);
-    const yearlyTotal = calculateSpending(365);
-    const overallTotal = expenses.reduce(
-      (total, expense) => total + expense.amount,
-      0
-    );
-  
-    // Adding summary data to CSV
-    csvContent += "\nSummary\n";
-    csvContent += `Weekly Spending,$${weeklyTotal.toFixed(2)}\n`;
-    csvContent += `Monthly Spending,$${monthlyTotal.toFixed(2)}\n`;
-    csvContent += `Yearly Spending,$${yearlyTotal.toFixed(2)}\n`;
-    csvContent += `Total Spending,$${overallTotal.toFixed(2)}\n`;
-  
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "expense_report.csv");
-    document.body.appendChild(link);
-  
-    link.click();
-    document.body.removeChild(link);
+  });
+
+  // Adding a section for Category Totals
+  csvContent += "\nCategory Totals\n";
+  csvContent += "Category,Total Amount\n";
+  for (const [category, total] of Object.entries(categoryTotals)) {
+    csvContent += `${category},${total.toFixed(2)}\n`;
   }
-  
-  // Attach event listener to the doload report button
-  document.querySelector(".btn.btn-primary.mt-2").addEventListener("click", downloadCSV);
-  
-  //impentantation for search feature
 
- document.querySelector("form[role='search']").addEventListener("submit", function (event) {
-  event.preventDefault();
-  showSearchResults();
-});
+  // Calculate summary data
+  const weeklyTotal = calculateSpending(7);
+  const monthlyTotal = calculateSpending(31);
+  const yearlyTotal = calculateSpending(365);
+  const overallTotal = expenses.reduce(
+    (total, expense) => total + expense.amount,
+    0
+  );
 
-document.querySelector("input[type='search']").addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
+  // Adding summary data to CSV
+  csvContent += "\nSummary\n";
+  csvContent += `Weekly Spending,$${weeklyTotal.toFixed(2)}\n`;
+  csvContent += `Monthly Spending,$${monthlyTotal.toFixed(2)}\n`;
+  csvContent += `Yearly Spending,$${yearlyTotal.toFixed(2)}\n`;
+  csvContent += `Total Spending,$${overallTotal.toFixed(2)}\n`;
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "expense_report.csv");
+  document.body.appendChild(link);
+
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Attach event listener to the doload report button
+document
+  .querySelector(".btn.btn-primary.mt-2")
+  .addEventListener("click", downloadCSV);
+
+//impentantation for search feature
+
+document
+  .querySelector("form[role='search']")
+  .addEventListener("submit", function (event) {
     event.preventDefault();
     showSearchResults();
-  }
-});
+  });
+
+document
+  .querySelector("input[type='search']")
+  .addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      showSearchResults();
+    }
+  });
 
 function showSearchResults() {
-  const searchQuery = document.querySelector("input[type='search']").value.trim().toLowerCase();
+  const searchQuery = document
+    .querySelector("input[type='search']")
+    .value.trim()
+    .toLowerCase();
   const searchResultsSection = document.getElementById("search-results");
-  const searchResultsContent = document.getElementById("search-results-content");
+  const searchResultsContent = document.getElementById(
+    "search-results-content"
+  );
 
   // Clear previous search results
   searchResultsContent.innerHTML = "";
@@ -386,8 +397,12 @@ function showSearchResults() {
       });
 
       if (filteredExpenses.length > 0) {
-        filteredExpenses.forEach(expense => {
-          resultsHTML += `<tr><td>${expense.category}</td><td>$${expense.amount.toFixed(2)}</td><td>${new Date(expense.date).toLocaleDateString()}</td></tr>`;
+        filteredExpenses.forEach((expense) => {
+          resultsHTML += `<tr><td>${
+            expense.category
+          }</td><td>$${expense.amount.toFixed(2)}</td><td>${new Date(
+            expense.date
+          ).toLocaleDateString()}</td></tr>`;
         });
       } else {
         resultsHTML += "<tr><td colspan='3'>No matching expenses found.</td></tr>";
@@ -398,9 +413,6 @@ function showSearchResults() {
     searchResultsContent.innerHTML = resultsHTML;
 
     // Smooth scroll to the search results section
-    searchResultsSection.scrollIntoView({ behavior: 'smooth' });
+    searchResultsSection.scrollIntoView({ behavior: "smooth" });
   }
 }
-
-  
-  
